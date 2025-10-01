@@ -1,7 +1,22 @@
-[functions]
-  directory = "netlify/functions"
+[build]
+  command = "npm run build"
+  publish = "dist"  # or "build" depending on your setup
+  functions = "netlify/functions"  # specify where your functions are
 
- [[headers]]
-  for = "/.netlify/functions/*"
+# Prevent .tsx files from being treated as functions
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false
+
+# Ensure proper headers for JavaScript modules
+[[headers]]
+  for = "/*.js"
   [headers.values]
-    Content-Type = "application/json"
+    Content-Type = "application/javascript; charset=utf-8"
+
+[[headers]]
+  for = "/*.tsx"
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"
