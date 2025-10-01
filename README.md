@@ -8,7 +8,6 @@ A modern, full-featured invoice management application built with React, TypeScr
 
 - **User Authentication**: Secure login/signup with Firebase Auth
 - **Invoice Management**: Create, view, edit, and manage invoices
-- **Real-time Updates**: Live data synchronization using Socket.IO
 - **Responsive Design**: Optimized for desktop and mobile devices
 - **Payment Tracking**: Track payment status and confirmations
 - **Customer Management**: Add and manage customer information
@@ -19,10 +18,9 @@ A modern, full-featured invoice management application built with React, TypeScr
 
 - **Frontend**: React 18, TypeScript, Tailwind CSS
 - **Authentication**: Firebase Auth
-- **Database**: Firebase Firestore
-- **Real-time**: Socket.IO
-- **State Management**: React Context + useReducer
-- **Testing**: Jest, React Testing Library
+- **Database**: Netlify serverless function
+- **State Management**: React Context + use state
+- **Testing**: vitest, React Testing Library
 - **Build Tool**: Vite
 - **Icons**: Lucide React
 
@@ -35,6 +33,8 @@ src/
 │   ├── invoice/         # Invoice-related components
 │   ├── auth/            # Authentication components
 │   └── common/          # Common components
+    └── modal/          # Modal components
+
 ├── pages/               # Page components
 ├── hooks/               # Custom React hooks
 ├── contexts/            # React contexts
@@ -42,7 +42,7 @@ src/
 ├── utils/               # Utility functions
 ├── types/               # TypeScript type definitions
 ├── __tests__/           # Test files
-└── styles/              # Global styles
+
 ```
 
 ## 🚦 Getting Started
@@ -84,7 +84,7 @@ VITE_FIREBASE_PROJECT_ID=your_project_id
 VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
 VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
 VITE_FIREBASE_APP_ID=your_app_id
-VITE_SOCKET_URL=http://localhost:3001
+
 ```
 
 5. **Start the development server**
@@ -165,8 +165,6 @@ HOC for protecting authenticated routes.
 The application includes a comprehensive mock backend that simulates:
 
 - Invoice CRUD operations
-- Real-time notifications
-- Payment processing
 - Customer management
 
 ## 🚨 Error Handling
@@ -176,7 +174,6 @@ Comprehensive error handling for:
 - Network connectivity issues
 - Firebase authentication errors
 - Form validation errors
-- Real-time connection failures
 
 ## 🔒 Security Features
 
@@ -187,10 +184,8 @@ Comprehensive error handling for:
 
 ## 📈 Performance Optimizations
 
-- React.memo for component optimization
-- Lazy loading for code splitting
-- Image optimization
 - Efficient re-rendering strategies
+- caching Frontend requests
 
 ## 🎨 Design System
 
@@ -198,18 +193,6 @@ Comprehensive error handling for:
 - Typography scale
 - Component variants
 - Accessibility compliance
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License.
 
 ## 🙏 Acknowledgments
 
