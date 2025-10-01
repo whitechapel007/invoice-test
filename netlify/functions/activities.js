@@ -1,6 +1,7 @@
-export async function handler(event, context) {
-  const data = await import("../../db.json", { assert: { type: "json" } });
-  const activities = data.default.activities;
+export async function handler(event) {
+  const data = require("../../db.json");
+
+  const activities = data.activities;
 
   const { id } = event.queryStringParameters;
 

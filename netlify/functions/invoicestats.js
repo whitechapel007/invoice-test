@@ -1,6 +1,6 @@
-export async function handler(event, context) {
-  const data = await import("../../db.json", { assert: { type: "json" } });
-  const stats = data.default.invoicestats;
+export async function handler() {
+  const data = require("../../db.json");
+  const stats = data.invoicestats;
 
   return {
     statusCode: 200,
