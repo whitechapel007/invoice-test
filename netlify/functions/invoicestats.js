@@ -1,5 +1,5 @@
 export async function handler() {
-  const data = require("../../db.json");
+  const data = require("./db.json");
   const stats = data.invoicestats;
 
   return {

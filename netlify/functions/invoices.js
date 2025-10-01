@@ -1,7 +1,7 @@
 export async function handler(event) {
   // import your db.json
-  const data = require("../../db.json");
-  const invoices = data.invoices; // assuming db.json has { "invoices": [...] }
+  const data = require("./db.json");
+  const invoices = data.invoices;
 
   // optional: filter by id
   const { id } = event.queryStringParameters;

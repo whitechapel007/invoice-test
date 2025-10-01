@@ -1,5 +1,5 @@
 export async function handler(event) {
-  const data = require("../../db.json");
+  const data = require("./db.json");
 
   const activities = data.activities;
 
