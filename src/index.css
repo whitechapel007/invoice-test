@@ -1,0 +1,48 @@
+@import url("https://fonts.cdnfonts.com/css/neue-haas-grotesk-display-pro");
+@import "tailwindcss";
+
+@theme {
+  --color-gray-50: #4f4f4f;
+  --color-gray-100: #697598;
+  --color-gray-200: #f5f6fa;
+  --color-gray-300: #f8f8fb;
+  --color-blue-100: #a1b8ff33;
+  --color-blue-50: #003eff;
+
+  /* stroke color */
+  --color-stroke: #e3e6ef;
+
+  --color-gray-400: #666f77;
+  --color-gray-600: #f6f8fa;
+
+  --color-gray-text: #1f1f23;
+
+  --color-gray-700: #f2fbff;
+  --color-fuscia: #fcddec;
+
+  /* green */
+  --color-green-50: #b6fdd3;
+  --color-secondary-green: #e6fff0;
+  --color-darker-green: #129043;
+  --color-green-border: #12904333;
+
+  --color-blue-border: #003eff33;
+
+  /*red*/
+
+  --color-red-100: #fff4f5;
+  --color-red-200: #ff5663;
+  ----color-red-border: #ff566333;
+
+  --color-gray-border: #373b4733;
+
+  --color-dark-gray: #373b47;
+  --color-black: #1f1f23;
+  --color-lightGray: #f6f8fa;
+
+  /*yellow*/
+  --color-yellow-100: #fff8eb;
+  --color-yellow-200: #d98f00;
+
+  --font-neue-haas: "Neue Haas Grotesk Display Pro", sans-serif;
+}
