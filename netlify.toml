@@ -5,7 +5,3 @@
   for = "/.netlify/functions/*"
   [headers.values]
     Content-Type = "application/json"
-
-  [build]
-  command = "npm run build"
-  publish = "dist"
