@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, within } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import InvoiceModal from "../components/modal/InvoiceModal";
 import { Invoice } from "../types/type";
@@ -219,9 +219,7 @@ describe("InvoiceModal - Critical Component Tests", () => {
       );
 
       // Use getAllByText since "Fabulous Enterprise" appears multiple times
-      const elements = screen.queryAllByText((content, element) => {
-        return element?.textContent?.includes("Fabulous Enterprise") || false;
-      });
+      const elements = screen.queryAllByText(/Fabulous Enterprise/i);
       expect(elements.length).toBeGreaterThan(0);
     });
 
