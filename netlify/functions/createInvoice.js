@@ -134,7 +134,7 @@ export async function handler(event) {
           $group: {
             _id: "$status",
             count: { $sum: 1 },
-            totalAmount: { $sum: "$amount" },
+            totalAmount: { $sum: "$total" },
           },
         },
       ])
