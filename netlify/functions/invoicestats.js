@@ -1,38 +1,72 @@
-// netlify/functions/getInvoiceStats.js
 import { MongoClient } from "mongodb";
 
-let cachedClient = null;
+const client = new MongoClient(process.env.VITE_MONGO_URI);
 
 export async function handler() {
   try {
-    // Connect to MongoDB (reuse cached client if available)
-    if (!cachedClient) {
-      cachedClient = new MongoClient(process.env.VITE_MONGO_URI);
-      await cachedClient.connect();
-    }
+    await client.connect();
+    const db = client.db("invoice_test");
+    const invoices = db.collection("invoices");
 
-    const db = cachedClient.db("invoice_test"); // change to your DB name
-    const statsCol = db.collection("invoicestats");
+    // Fetch all invoices
+    const allInvoices = await invoices.find().toArray();
 
-    // We store stats as a single document, so just grab the first one
-    const stats = await statsCol.findOne({});
+    // Calculate totals
+    let totalPaid = 0,
+      totalOverdue = 0,
+      totalDraft = 0,
+      totalUnpaid = 0;
+    let countPaid = 0,
+      countOverdue = 0,
+      countDraft = 0,
+      countUnpaid = 0;
+
+    allInvoices.forEach((inv) => {
+      switch (inv.status) {
+        case "paid":
+          totalPaid += inv.amount;
+          countPaid++;
+          break;
+        case "overdue":
+          totalOverdue += inv.amount;
+          countOverdue++;
+          break;
+        case "draft":
+          totalDraft += inv.amount;
+          countDraft++;
+          break;
+        case "unpaid":
+          totalUnpaid += inv.amount;
+          countUnpaid++;
+          break;
+      }
+    });
+
+    const stats = {
+      totalPaid,
+      totalOverdue,
+      totalDraft,
+      totalUnpaid,
+      countPaid,
+      countOverdue,
+      countDraft,
+      countUnpaid,
+      total: allInvoices.length,
+      paid: countPaid,
+      pending: countDraft + countUnpaid, // or however you define pending
+      overdue: countOverdue,
+    };
 
     return {
       statusCode: 200,
-      body: JSON.stringify(
-        stats || { total: 0, paid: 0, pending: 0, overdue: 0 }
-      ),
-      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(stats),
     };
-  } catch (error) {
-    console.error("Error fetching invoice stats:", error);
+  } catch (err) {
     return {
       statusCode: 500,
-      body: JSON.stringify({
-        error: "Failed to fetch invoice stats",
-        details: error.message,
-      }),
-      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ error: err.message }),
     };
+  } finally {
+    await client.close();
   }
 }
