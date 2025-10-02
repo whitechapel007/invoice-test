@@ -139,9 +139,79 @@
           "total": 4000
         }
       ]
+    },
+    {
+      "id": "3",
+      "invoiceNumber": "1023496 - 2510",
+      "status": "pending",
+      "dueDate": "2025-11-14",
+      "createdAt": "2025-10-02",
+      "total": 18.86,
+      "currency": "$",
+      "subtotal": 19.86,
+      "discount": 1,
+      "activities": [
+        {
+          "id": "act-1759386147950",
+          "type": "invoice_created",
+          "message": "Created invoice 1023496 - 2510 / Ememe Tochukwu",
+          "timestamp": "2025-10-02T06:22:27.950Z",
+          "invoiceId": "1023496 - 2510",
+          "user": {
+            "id": "user-1",
+            "name": "Admin User",
+            "email": "admin@example.com",
+            "avatar": "/avatars/user-1.jpg"
+          }
+        }
+      ],
+      "customer": {
+        "id": "cust-1759386147950",
+        "name": "Ememe Tochukwu",
+        "email": "ebukareed@gmail.com",
+        "phone": "+2348059547139",
+        "address": "No 30 oriadetu street ajangbadi"
+      },
+      "sender": {
+        "name": "Fabulous Enterprise",
+        "email": "info@fabulousenterprise.co",
+        "phone": "+386 989 271 3115",
+        "address": "1331 Hart Ridge Road 48436 Gaines, MI",
+        "image": "/sender.svg"
+      },
+      "paymentInfo": {
+        "accountName": "Fabulous Enterprise",
+        "accountNumber": "1234567890",
+        "routingNumber": "987654321",
+        "bankName": "Fabulous Bank",
+        "bankAddress": "123 Bank St, Finance City, FC 12345"
+      },
+      "items": [
+        {
+          "id": "item-1759386147951-0",
+          "description": "two chains",
+          "details": "i want to buy two chainz",
+          "quantity": 2,
+          "price": 9.93,
+          "total": 19.86
+        }
+      ]
     }
   ],
   "activities": [
+    {
+      "id": "act-1759386147951-global",
+      "type": "invoice_created",
+      "message": "Created invoice 1023496 - 2510 / Ememe Tochukwu",
+      "timestamp": "2025-10-02T06:22:27.950Z",
+      "invoiceId": "1023496 - 2510",
+      "user": {
+        "id": "user-1",
+        "name": "Admin User",
+        "email": "admin@example.com",
+        "avatar": "/avatars/user-1.jpg"
+      }
+    },
     {
       "id": "1",
       "type": "invoice_created",
@@ -190,6 +260,10 @@
     "countPaid": 1289,
     "countOverdue": 6,
     "countDraft": 3,
-    "countUnpaid": 9
+    "countUnpaid": 9,
+    "total": 3,
+    "paid": 1,
+    "pending": 1,
+    "overdue": 0
   }
 }

@@ -7,12 +7,17 @@ import { StatCard } from "../components/invoice/StatCard";
 
 import { fetchInvoiceStats } from "../services/api/queries";
 import Spinner from "../components/common/Spinner";
+import { useState } from "react";
+import CreateInvoiceModal from "../components/modal/CreateInvoiceModal";
 
 const InvoicePage = () => {
+  const [createInvoice, setCreateInvoice] = useState(false);
+
   const { data: stats, isLoading } = useQuery({
     queryKey: ["recent-activities"],
     queryFn: fetchInvoiceStats,
   });
+
   if (isLoading) {
     return <Spinner />;
   }
@@ -32,6 +37,7 @@ const InvoicePage = () => {
             <Button
               className=" rounded-full py-5 min-w-[150px] md:min-w-[210px] uppercase font-medium text-base"
               variant="primary"
+              onClick={() => setCreateInvoice(true)}
             >
               Create
             </Button>
@@ -73,6 +79,10 @@ const InvoicePage = () => {
           <RecentActivities />
         </div>
       </div>
+      <CreateInvoiceModal
+        openModal={createInvoice}
+        onClose={() => setCreateInvoice(false)}
+      />
     </>
   );
 };

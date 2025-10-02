@@ -113,12 +113,7 @@ export const Sidebar = () => {
           <div className="relative flex flex-col w-64 bg-white border-r border-gray-200 z-50 transform transition-transform duration-300 ease-in-out">
             <div className="p-4 flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <div className="w-6 h-6 bg-blue-600 rounded text-white flex items-center justify-center text-sm font-bold">
-                  I
-                </div>
-                <span className="text-lg font-semibold text-gray-900">
-                  INVOICE
-                </span>
+                <img src="/logo.svg" />
               </div>
               <button onClick={() => setIsOpen(false)}>
                 <X className="w-6 h-6 text-gray-700" />
@@ -135,8 +130,8 @@ export const Sidebar = () => {
                     onClick={() => setIsOpen(false)} // close menu on navigation
                     className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
                       isActive
-                        ? "bg-gray-100 text-gray-900"
-                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                        ? "bg-slate-100 text-gray-900"
+                        : "text-gray-100 hover:bg-gray-50 hover:text-gray-900"
                     }`}
                   >
                     <item.icon className="w-5 h-5" />

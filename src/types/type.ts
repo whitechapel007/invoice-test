@@ -72,3 +72,17 @@ export interface Activity {
   invoiceNumber?: string;
   clientName?: string;
 }
+
+export interface InvoiceFormData {
+  customer: {
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+  };
+  items: InvoiceItem[];
+  dueDate: string;
+  status: string;
+  currency: string;
+  discount: number;
+}
