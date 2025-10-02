@@ -196,9 +196,79 @@
           "total": 19.86
         }
       ]
+    },
+    {
+      "id": "4",
+      "invoiceNumber": "1023497 - 2510",
+      "status": "pending",
+      "dueDate": "2025-11-01",
+      "createdAt": "2025-10-02",
+      "total": 990,
+      "currency": "$",
+      "subtotal": 1000,
+      "discount": 10,
+      "activities": [
+        {
+          "id": "act-1759394836715",
+          "type": "invoice_created",
+          "message": "Created invoice 1023497 - 2510 / João Souza Silva",
+          "timestamp": "2025-10-02T08:47:16.715Z",
+          "invoiceId": "1023497 - 2510",
+          "user": {
+            "id": "user-1",
+            "name": "Admin User",
+            "email": "admin@example.com",
+            "avatar": "/avatars/user-1.jpg"
+          }
+        }
+      ],
+      "customer": {
+        "id": "cust-1759394836715",
+        "name": "João Souza Silva",
+        "email": "teste@exemplo.us",
+        "phone": "+553121286800",
+        "address": "Rua Inexistente, 2000"
+      },
+      "sender": {
+        "name": "Fabulous Enterprise",
+        "email": "info@fabulousenterprise.co",
+        "phone": "+386 989 271 3115",
+        "address": "1331 Hart Ridge Road 48436 Gaines, MI",
+        "image": "/sender.svg"
+      },
+      "paymentInfo": {
+        "accountName": "Fabulous Enterprise",
+        "accountNumber": "1234567890",
+        "routingNumber": "987654321",
+        "bankName": "Fabulous Bank",
+        "bankAddress": "123 Bank St, Finance City, FC 12345"
+      },
+      "items": [
+        {
+          "id": "item-1759394836715-0",
+          "description": "rice and beans",
+          "details": "wweiwe",
+          "quantity": 10,
+          "price": 100,
+          "total": 1000
+        }
+      ]
     }
   ],
   "activities": [
+    {
+      "id": "act-1759394836715-global",
+      "type": "invoice_created",
+      "message": "Created invoice 1023497 - 2510 / João Souza Silva",
+      "timestamp": "2025-10-02T08:47:16.715Z",
+      "invoiceId": "1023497 - 2510",
+      "user": {
+        "id": "user-1",
+        "name": "Admin User",
+        "email": "admin@example.com",
+        "avatar": "/avatars/user-1.jpg"
+      }
+    },
     {
       "id": "act-1759386147951-global",
       "type": "invoice_created",
@@ -261,9 +331,9 @@
     "countOverdue": 6,
     "countDraft": 3,
     "countUnpaid": 9,
-    "total": 3,
+    "total": 4,
     "paid": 1,
-    "pending": 1,
+    "pending": 2,
     "overdue": 0
   }
 }

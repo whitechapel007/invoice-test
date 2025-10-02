@@ -2,7 +2,7 @@ const { readFileSync, writeFileSync } = require("fs");
 const { join } = require("path");
 const { existsSync } = require("fs");
 
-exports.handler = async function (event) {
+export async function handler(event) {
   // Only allow POST requests
   if (event.httpMethod !== "POST") {
     return {
@@ -32,9 +32,26 @@ exports.handler = async function (event) {
     }
 
     // Find the correct path to db.json
+    let dbPath;
 
     // Try local development path first
-    const dbPath = join(__dirname, "db.json");
+    const localPath = join(__dirname, "db.json");
+
+    // Try production path (relative to functions directory)
+    const prodPath = join(process.cwd(), "netlify", "functions", "db.json");
+
+    // Try root path
+    const rootPath = join(process.cwd(), "db.json");
+
+    if (existsSync(localPath)) {
+      dbPath = localPath;
+    } else if (existsSync(prodPath)) {
+      dbPath = prodPath;
+    } else if (existsSync(rootPath)) {
+      dbPath = rootPath;
+    } else {
+      throw new Error("db.json not found");
+    }
 
     // Read current db.json
     const data = JSON.parse(readFileSync(dbPath, "utf-8"));
@@ -176,4 +193,4 @@ exports.handler = async function (event) {
       headers: { "Content-Type": "application/json" },
     };
   }
-};
+}
