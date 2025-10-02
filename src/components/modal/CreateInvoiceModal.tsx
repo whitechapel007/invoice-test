@@ -549,7 +549,7 @@ const CreateInvoiceModal = ({
                         Discount
                       </span>
                       <span className="font-semibold text-gray-900">
-                        -{formatCurrency(formData.discount)}
+                        {formatCurrency(formData.discount)}
                       </span>
                     </div>
                   )}

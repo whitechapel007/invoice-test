@@ -32,26 +32,9 @@ exports.handler = async function (event) {
     }
 
     // Find the correct path to db.json
-    let dbPath;
 
     // Try local development path first
-    const localPath = join(__dirname, "db.json");
-
-    // Try production path (relative to functions directory)
-    const prodPath = join(process.cwd(), "netlify", "functions", "db.json");
-
-    // Try root path
-    const rootPath = join(process.cwd(), "db.json");
-
-    if (existsSync(localPath)) {
-      dbPath = localPath;
-    } else if (existsSync(prodPath)) {
-      dbPath = prodPath;
-    } else if (existsSync(rootPath)) {
-      dbPath = rootPath;
-    } else {
-      throw new Error("db.json not found");
-    }
+    const dbPath = join(__dirname, "db.json");
 
     // Read current db.json
     const data = JSON.parse(readFileSync(dbPath, "utf-8"));
