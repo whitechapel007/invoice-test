@@ -128,16 +128,37 @@ export async function handler(event) {
     // Save invoice to MongoDB
     await invoicesCol.insertOne(newInvoice);
 
-    // Update invoice stats (single document that tracks counts)
-    const statusCounts = await invoicesCol
-      .aggregate([{ $group: { _id: "$status", count: { $sum: 1 } } }])
+    const statusAgg = await invoicesCol
+      .aggregate([
+        {
+          $group: {
+            _id: "$status",
+            count: { $sum: 1 },
+            totalAmount: { $sum: "$amount" },
+          },
+        },
+      ])
       .toArray();
 
+    console.log("clg", statusAgg);
+
+    // Build stats object
     const statsUpdate = {
-      total: invoiceCount + 1,
-      paid: statusCounts.find((s) => s._id === "paid")?.count || 0,
-      pending: statusCounts.find((s) => s._id === "pending")?.count || 0,
-      overdue: statusCounts.find((s) => s._id === "overdue")?.count || 0,
+      total: invoiceCount,
+
+      // Counts
+      paid: statusAgg.find((s) => s._id === "paid")?.count || 0,
+      pending: statusAgg.find((s) => s._id === "pending")?.count || 0,
+      overdue: statusAgg.find((s) => s._id === "overdue")?.count || 0,
+      draft: statusAgg.find((s) => s._id === "draft")?.count || 0,
+      unpaid: statusAgg.find((s) => s._id === "unpaid")?.count || 0,
+
+      // Totals by amount
+      totalPaid: statusAgg.find((s) => s._id === "paid")?.totalAmount || 0,
+      totalOverdue:
+        statusAgg.find((s) => s._id === "overdue")?.totalAmount || 0,
+      totalDraft: statusAgg.find((s) => s._id === "draft")?.totalAmount || 0,
+      totalUnpaid: statusAgg.find((s) => s._id === "unpaid")?.totalAmount || 0,
     };
 
     await statsCol.updateOne({}, { $set: statsUpdate }, { upsert: true });

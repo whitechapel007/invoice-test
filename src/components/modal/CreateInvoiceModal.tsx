@@ -71,7 +71,7 @@ const CreateInvoiceModal = ({
     onSuccess: () => {
       // Invalidate and refetch invoices
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
-      queryClient.invalidateQueries({ queryKey: ["invoicestats"] });
+      queryClient.invalidateQueries({ queryKey: ["recent-activities"] });
       queryClient.invalidateQueries({ queryKey: ["activities"] });
 
       // Reset form and close modal
