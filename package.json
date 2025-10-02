@@ -15,12 +15,14 @@
     "netlify": "netlify dev"
   },
   "dependencies": {
+    "@netlify/blobs": "^10.0.11",
     "@tailwindcss/vite": "^4.1.13",
     "axios": "^1.12.2",
     "date-fns": "^4.1.0",
     "firebase": "^12.3.0",
     "json-server": "^1.0.0-beta.3",
     "lucide-react": "^0.544.0",
+    "mongodb": "^6.20.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^7.9.3",

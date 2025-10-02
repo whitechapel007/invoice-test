@@ -1,6 +1,7 @@
-const { readFileSync, writeFileSync } = require("fs");
-const { join } = require("path");
-const { existsSync } = require("fs");
+// netlify/functions/createInvoice.js
+import { MongoClient } from "mongodb";
+
+let cachedClient = null;
 
 export async function handler(event) {
   // Only allow POST requests
@@ -31,42 +32,31 @@ export async function handler(event) {
       };
     }
 
-    // Find the correct path to db.json
-    let dbPath;
-
-    // Try local development path first
-    const localPath = join(__dirname, "db.json");
-
-    // Try production path (relative to functions directory)
-    const prodPath = join(process.cwd(), "netlify", "functions", "db.json");
-
-    // Try root path
-    const rootPath = join(process.cwd(), "db.json");
-
-    if (existsSync(localPath)) {
-      dbPath = localPath;
-    } else if (existsSync(prodPath)) {
-      dbPath = prodPath;
-    } else if (existsSync(rootPath)) {
-      dbPath = rootPath;
-    } else {
-      throw new Error("db.json not found");
+    // Connect to MongoDB (reusing cached connection for performance)
+    if (!cachedClient) {
+      cachedClient = new MongoClient(process.env.VITE_MONGO_URI);
+      await cachedClient.connect();
     }
 
-    // Read current db.json
-    const data = JSON.parse(readFileSync(dbPath, "utf-8"));
+    const db = cachedClient.db("invoice_test");
+    const invoicesCol = db.collection("invoices");
+    const statsCol = db.collection("invoicestats");
+    const activitiesCol = db.collection("activities");
 
-    // Generate new invoice ID and number
-    const newId = String(data.invoices.length + 1);
-    const invoiceNumber = `${1023494 + data.invoices.length} - ${new Date()
+    // Get invoice count for ID & number generation
+    const invoiceCount = await invoicesCol.countDocuments();
+
+    const newId = String(invoiceCount + 1);
+    const invoiceNumber = `${1023494 + invoiceCount} - ${new Date()
       .getFullYear()
       .toString()
       .slice(-2)}${String(new Date().getMonth() + 1).padStart(2, "0")}`;
 
     // Calculate totals
-    const subtotal = invoiceData.items.reduce((sum, item) => {
-      return sum + item.quantity * item.price;
-    }, 0);
+    const subtotal = invoiceData.items.reduce(
+      (sum, item) => sum + item.quantity * item.price,
+      0
+    );
     const discount = invoiceData.discount || 0;
     const total = subtotal - discount;
 
@@ -74,7 +64,7 @@ export async function handler(event) {
     const now = new Date().toISOString();
     const createdAt = now.split("T")[0];
 
-    // Create the new invoice
+    // Create invoice object
     const newInvoice = {
       id: newId,
       invoiceNumber,
@@ -135,24 +125,24 @@ export async function handler(event) {
       })),
     };
 
-    // Add to invoices array
-    data.invoices.push(newInvoice);
+    // Save invoice to MongoDB
+    await invoicesCol.insertOne(newInvoice);
 
-    // Update invoice stats
-    if (data.invoicestats) {
-      data.invoicestats.total = data.invoices.length;
+    // Update invoice stats (single document that tracks counts)
+    const statusCounts = await invoicesCol
+      .aggregate([{ $group: { _id: "$status", count: { $sum: 1 } } }])
+      .toArray();
 
-      const statusCounts = data.invoices.reduce((acc, inv) => {
-        acc[inv.status] = (acc[inv.status] || 0) + 1;
-        return acc;
-      }, {});
+    const statsUpdate = {
+      total: invoiceCount + 1,
+      paid: statusCounts.find((s) => s._id === "paid")?.count || 0,
+      pending: statusCounts.find((s) => s._id === "pending")?.count || 0,
+      overdue: statusCounts.find((s) => s._id === "overdue")?.count || 0,
+    };
 
-      data.invoicestats.paid = statusCounts.paid || 0;
-      data.invoicestats.pending = statusCounts.pending || 0;
-      data.invoicestats.overdue = statusCounts.overdue || 0;
-    }
+    await statsCol.updateOne({}, { $set: statsUpdate }, { upsert: true });
 
-    // Create activity entry
+    // Add global activity
     const newActivity = {
       id: `act-${Date.now()}-global`,
       type: "invoice_created",
@@ -167,12 +157,7 @@ export async function handler(event) {
       },
     };
 
-    if (data.activities) {
-      data.activities.unshift(newActivity);
-    }
-
-    // Write back to db.json
-    writeFileSync(dbPath, JSON.stringify(data, null, 2), "utf-8");
+    await activitiesCol.insertOne(newActivity);
 
     return {
       statusCode: 201,

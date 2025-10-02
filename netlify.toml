@@ -17,7 +17,9 @@
     Content-Type = "application/javascript; charset=utf-8"
 
 
+
+
+
 [functions]
-  directory = "netlify/functions"
-  included_files = ["db.json"]
   node_bundler = "esbuild"
+  external_node_modules = ["mongodb"]
