@@ -358,6 +358,7 @@ const CreateInvoiceModal = ({
                     <option value="pending">Pending</option>
                     <option value="paid">Paid</option>
                     <option value="overdue">Overdue</option>
+                    <option value="draft">Draft</option>
                   </select>
                 </div>
 

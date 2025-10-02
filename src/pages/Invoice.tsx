@@ -47,25 +47,25 @@ const InvoicePage = () => {
           <StatCard
             title="Total Paid"
             amount={stats?.totalPaid || 0}
-            count={stats?.countPaid || 0}
+            count={stats?.paid || 0}
             color="#B6FDD3"
           />
           <StatCard
             title="Total Overdue"
             amount={stats?.totalOverdue || 0}
-            count={stats?.countOverdue || 0}
+            count={stats?.overdue || 0}
             color="#FFB7BD"
           />
           <StatCard
             title="Total Draft"
             amount={stats?.totalDraft || 0}
-            count={stats?.countDraft || 0}
+            count={stats?.draft || 0}
             color="#D9D9E0"
           />
           <StatCard
             title="Total Unpaid"
             amount={stats?.totalUnpaid || 0}
-            count={stats?.countUnpaid || 0}
+            count={stats?.unpaid || 0}
             color="#F8E39B"
           />
         </div>

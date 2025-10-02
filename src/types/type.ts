@@ -56,10 +56,10 @@ export interface InvoiceStats {
   totalOverdue: number;
   totalDraft: number;
   totalUnpaid: number;
-  countPaid: number;
-  countOverdue: number;
-  countDraft: number;
-  countUnpaid: number;
+  paid: number;
+  overdue: number;
+  draft: number;
+  unpaid: number;
 }
 
 export interface Activity {
